@@ -18,9 +18,11 @@ function searchWord() {
       let endString = '<';
   
       let outputString = extractSubstring(inputString, startString, endString);
-      if (outputString.substring(outputString.length - 2) == '">'){
-        startString = '<div id=\"content_selectable\" class=\"content\" style=\"padding-bottom: 10px\">\n    \n    <div class=\"\">';
-        outputString = extractSubstring(inputString, startString, endString);
+      if (outputString.length > 1){
+        if (outputString.substring(outputString.length - 2) == '">'){
+          startString = '<div id=\"content_selectable\" class=\"content\" style=\"padding-bottom: 10px\">\n    \n    <div class=\"\">';
+          outputString = extractSubstring(inputString, startString, endString);
+        }
       }
       resultDiv.innerHTML = outputString;
     })
