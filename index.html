@@ -2,12 +2,12 @@
 <html>
 <head>
   <title>Laban Dictionary API</title>
+  <script src="script.js"></script>
 </head>
 <body>
   <input type="text" id="wordInput" placeholder="Nhập từ tiếng Anh">
   <button onclick="searchWord()">Tra từ</button>
   <div id="result"></div>
-
-  <script src="script.js"></script>
+  <script id="lbdict_plugin_frame" type="text/javascript">!function(){var h={s:"https://dict.laban.vn",w:260,h:260,hl:2,th:1};function loadScript(t,e){var n=document.createElement("script");n.type="text/javascript",n.readyState?n.onreadystatechange=function(){("loaded"===n.readyState||"complete"===n.readyState)&&(n.onreadystatechange=null,e())}:n.onload=function(){e()},n.src=t,q=document.getElementById("lbdict_plugin_frame"),q.parentNode.insertBefore(n,q)}setTimeout(function(){loadScript("https://stc-laban.zdn.vn/dictionary/js/plugin/lbdictplugin.frame.min.js",function(){lbDictPluginFrame.init(h)})},1e3); }();</script>
 </body>
 </html>
