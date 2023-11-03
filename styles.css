@@ -1,0 +1,79 @@
+body {
+    font-family: 'Times New Roman', Times, serif;
+    background-image: url('background.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.container {
+    background-color: rgba(255, 255, 255, 0.9);
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    max-width: 400px;
+    margin: 500px auto;
+    padding: 20px;
+}
+
+h1 {
+    font-size: 36px;
+    color: #333;
+}
+
+input[type="text"] {
+    width: 95%;
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    text-align: center;
+    font-size: 16px; 
+}
+
+button {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    background-color: #0074e4;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 15px;
+}
+
+button:hover {
+    background-color: #0057b3;
+}
+
+#result {
+    margin-top: 20px;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    font-size: 18px; 
+    font-weight: bold;
+    text-align: center;
+}
+
+#result h2 {
+    font-size: 24px;
+    color: #333;
+}
+
+#examples {
+    margin-top: 10px;
+}
+
+.example {
+    font-size: 18px;
+    color: #333;
+    margin-bottom: 10px;
+}
