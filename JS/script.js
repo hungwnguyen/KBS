@@ -14,7 +14,6 @@ function searchWord() {
     })
     .then(function(data) {
       let inputString = data.enEnData.best.details;
-      console.log(inputString);
       let startString = 'class=\"content\" style=\"padding-bottom: 10px\">\n    \n    <div class=\"bg-grey bold font-large m-top20\"><span>';
       let endString = '<';
   
