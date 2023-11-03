@@ -11,3 +11,5 @@ Link báo cáo :
 https://docs.google.com/document/d/1cxsgcz2mYRan45vPKC-c4TXtFN3IBeWS/edit?usp=sharing&ouid=111548788804368937761&rtpof=true&sd=true
 Link trang web :
 https://hungwnguyen.github.io/KBS/
+Tài liệu tham khảo :
+https://docs.google.com/document/d/1TLFK8ImToadzqfQcBBTf2TRhVazGv63y/edit
