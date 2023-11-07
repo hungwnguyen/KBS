@@ -1,3 +1,7 @@
+.long-pipe {
+	display: inline-block;
+	transform: scaleY(1.5) translateY(-2px);
+}
 body {
     font-family: 'Times New Roman', Times, serif;
     background-image: url('../Image/background.jpg');
@@ -16,24 +20,23 @@ body {
     background-color: rgba(255, 255, 255, 0.9);
     border-radius: 5px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-    max-width: 120%;
-    margin: 500px auto;
-    padding: 20px;
+    max-width: 100%; /* Giữa lại để nội dung hiển thị rộng hơn trên điện thoại */
+    margin: 20px auto; /* Điều chỉnh khoảng cách */
+    padding: 10px; /* Điều chỉnh khoảng cách */
 }
 
 h1 {
-    font-size: 36px;
-    color: #333;
+    font-size: 24px; /* Giảm kích thước chữ */
 }
 
 input[type="text"] {
-    width: 95%;
+    width: 90%; /* Giảm độ rộng */
     padding: 10px;
     margin: 10px 0;
     border: 1px solid #ccc;
     border-radius: 5px;
     text-align: center;
-    font-size: 16px; 
+    font-size: 18px; /* Tăng kích thước chữ */
 }
 
 button {
@@ -45,7 +48,7 @@ button {
     border: none;
     border-radius: 5px;
     cursor: pointer;
-    font-size: 15px;
+    font-size: 18px; /* Tăng kích thước chữ */
 }
 
 button:hover {
@@ -58,7 +61,7 @@ button:hover {
     background-color: #fff;
     border-radius: 5px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-    font-size: 18px; 
+    font-size: 20px; /* Tăng kích thước chữ */
     font-weight: bold;
     text-align: center;
 }
@@ -66,14 +69,4 @@ button:hover {
 #result h2 {
     font-size: 24px;
     color: #333;
-}
-
-#examples {
-    margin-top: 10px;
-}
-
-.example {
-    font-size: 18px;
-    color: #333;
-    margin-bottom: 10px;
 }
