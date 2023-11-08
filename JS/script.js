@@ -1,4 +1,4 @@
-async function initializePopulation() {
+async function constructSentenceFromWords() {
   var inputSentence = document.getElementById("sentenceInput").value + ' *';
   let words = inputSentence.split(/\s+/g);
   words.pop();
