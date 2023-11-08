@@ -1,37 +1,30 @@
 async function initializePopulation() {
-  var resultDiv = document.getElementById("result");
   var inputSentence = document.getElementById("sentenceInput").value;
   let words = inputSentence.split(/\s+/);
   if (words.length < 2 || words.length > 6) {
     animateText("Vui lòng nhập lại");
     return;
   }
-  let shuffledWords = shuffleArray(words); // Hoán vị ngẫu nhiên các từ
-  let individual = shuffledWords.join(' '); // Tạo câu mới từ các từ đã hoán vị
 
+  let wordTypes = {}; // Đối tượng dữ liệu để lưu loại từ
+  let isSimplePastTense = false;
   for (let i = 0; i < words.length; i++) {
     const element = words[i];
     const test = await searchWord(element);
-
     if (test == '') {
       animateText("Vui lòng nhập đúng từ tiếng Anh.");
       break; // Dừng vòng lặp nếu gặp lỗi
     }
-    if (test.substring(0, 14) == ' past tense of') {
-      sga_passSimple(inputSentence, individual);
-      break;
+    if (test.substring(0, 13) == 'past tense of') {
+      isSimplePastTense = true;
     }
+    // Lưu loại từ vào đối tượng dữ liệu
+    wordTypes[element] = test;
   }
-}
-
-// Hàm hoán vị mảng ngẫu nhiên
-function shuffleArray(array) {
-  const shuffled = [...array];
-  for (let i = shuffled.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+  
+  if (isSimplePastTense){
+    sga_passSimple(wordTypes);
   }
-  return shuffled;
 }
 
 async function searchWord(word) {
@@ -61,7 +54,6 @@ async function searchWord(word) {
   }
 }
 
-
 function extractSubstring(inputString, startString, endString) {
   let result = '';
   let startIndex = 0;
@@ -80,13 +72,19 @@ function extractSubstring(inputString, startString, endString) {
     }
 
     const substring = inputString.substring(startIndex, endIndex);
-    result += ' ' + substring;
+    result = substring + ' ' + result;
 
     // Tăng vị trí bắt đầu tìm kiếm để tránh lặp vô hạn
     startIndex = endIndex;
   }
 
   return result;
+}
+
+function checkEnter(event) {
+  if (event.key === "Enter") {
+    initializePopulation();
+  }
 }
 
 function animateText(text, minTimeout = 0, maxTimeout = 1, underscoreTimeout = 66) {
