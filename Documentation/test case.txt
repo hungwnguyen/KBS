@@ -1,4 +1,5 @@
-Thì quá khứ đơn với động từ thường:
+Thì quá khứ đơn :
+- Công thức với động từ thường:
     Thể khẳng định : 
         Cấu trúc: S + V2/ed +…
         Test case: The bomb exploded two months ago.
@@ -14,7 +15,7 @@ Thì quá khứ đơn với động từ thường:
     Câu hỏi WH- question
         Cấu trúc: WH-word + did + S + (not) + V (nguyên mẫu)?
         Test case: What did you do last Sunday?
-Công thức với động từu tobe :
+- Công thức với động từu tobe :
     Thể khẳng định : 
         Cấu trúc: S + was/ were +…
         Test case: The train was ten minutes late.
@@ -29,7 +30,19 @@ Công thức với động từu tobe :
             Test case: No, I wasn’t.
     Câu hỏi WH- question
         Cấu trúc: WH-word + was/ were + S (+ not) +…?
-        Test case: Why were you sad?
+        Test case: 
+            Why were you sad?
+            Where were they yesterday?
+            What was she cooking?
+            How was the movie?
+            When were you born?
+            How was your day?
+            Why were they surprised?
+            Where were you last night?
+            What was the weather like?
+            How was the party?
+            Why was she upset?
+            What were they discussing?
     
     
     

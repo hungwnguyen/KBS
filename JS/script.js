@@ -1,7 +1,17 @@
+var sentenceEndChar = '.';
+
 async function constructSentenceFromWords() {
-  var inputSentence = document.getElementById("sentenceInput").value + ' *';
+  var inputSentence = '* ' + document.getElementById("sentenceInput").value + ' *';
+  // Kiểm tra xem inputSentence kết thúc bằng "." hoặc "?"
+  if (/[.?]/.test(inputSentence)) {
+    // Nếu có, cắt bỏ ký tự này khỏi inputSentence và gán cho sentenceEndChar
+    sentenceEndChar = /[.?]/.exec(inputSentence)[0];
+    // Loại bỏ tất cả các ký tự "?" hoặc "." khỏi inputSentence
+    inputSentence = inputSentence.replace(/[.?]/g, '');
+  }
   let words = inputSentence.split(/\s+/g);
   words.pop();
+  words.shift();
   if (words.length < 2 || words.length > 6) {
     animateText("Vui lòng nhập lại");
     return;
@@ -30,6 +40,9 @@ async function constructSentenceFromWords() {
 async function searchWord(word) {
   if (word.trim() === "") {
     return '';
+  }
+  if (word.toLowerCase()  === 'were'){
+    return 'past tense of be';
   }
   try {
     const apiUrl = "https://dict.laban.vn/ajax/widget-search?type=1&query=" + encodeURIComponent(word) + "&vi=0";
@@ -74,7 +87,6 @@ function generateFirst20Permutations(arr) {
   return result;
 }
 
-
 function extractSubstring(inputString, startString, endString) {
   let result = '';
   let startIndex = 0;
@@ -93,7 +105,6 @@ function extractSubstring(inputString, startString, endString) {
     // Tăng vị trí bắt đầu tìm kiếm để tránh lặp vô hạn
     startIndex = endIndex;
   }
-
   return result;
 }
 

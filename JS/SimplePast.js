@@ -1,13 +1,59 @@
+// Kiểm tra cấu trúc: WH-word + was/ were + S (+ not) +…?
+function checkStructure_WH_word_WasWere(individual, wordTypes) {
+  const regex = /(wh\w+)|how/i;
+  const verbRegex = /wasn't|weren't|was|were/;
+  let score = 0;
+  if (!regex.test(individual[0])){
+    score++;
+  }
+  if (!verbRegex.test(individual[1])){
+    score++;
+  }
+  if (!(
+    wordTypes[individual[2]].includes('noun') ||
+    wordTypes[individual[2]].includes('pronoun') ||
+    wordTypes[individual[2]].includes('definite article')
+  )){
+    score++;
+  }
+  else if (wordTypes[individual[2]].includes('adverb') || wordTypes[individual[2]].includes('adjective') ){
+    for (let i = 3; i < individual.length; i++) {
+      const word = individual[i];
+      const wordType = wordTypes[word];
+      if ((wordType.includes('noun') || wordType.includes('pronoun')) && !wordType.includes('adverb')){
+        score++;
+      }
+    }
+  }
+  if ((wordTypes[individual[3]].includes('definite article'))){
+    score++;
+  }
+  if (wordTypes[individual[2]].includes('definite article') && !(
+    wordTypes[individual[3]].includes('noun') ||
+    wordTypes[individual[3]].includes('pronoun') 
+  )){
+    score++;
+  }
+  return score;
+}
+
 // Hàm tính giá trị thích nghi (fitness)
 function calculateFitness(individual, wordTypes) {
   // Khởi tạo giá trị điểm thích nghi bằng 100
   let fitness = 100;
-  // Kiểm tra cấu trúc câu
-  for (let i = 0; i < individual.length; i++) {
-    const word = individual[i];
-    const wordType = wordTypes[word];
-    if(wordType.includes('person') || wordType.includes('noun')) {
-      fitness -= 1;
+  // Chuyển câu thành chuỗi để dễ dàng kiểm tra
+  const sentence = individual.join(" ");
+  // Công thức với động từu tobe :
+  if (/wasn't|weren't|was|were/.test(sentence)) {
+    if (/(wh\w+)|how/i.test(sentence)){
+      sentenceEndChar = '?';
+      fitness -= checkStructure_WH_word_WasWere(individual, wordTypes);
+    }
+  }
+  // Công thức với động từ thường:
+  else if (/did|didn’t/.test(sentence)){
+    if (/(wh\w+)|how/i.test(sentence)){
+      sentenceEndChar = '?';
     }
   }
   return fitness;
@@ -30,11 +76,14 @@ function mutation(individual) {
 
 // Hàm chạy giải thuật di truyền
 function sga_passSimple(wordTypes, words) {
+  
   // Khởi tạo quần thể ban đầu bằng cách xáo trộn các từ
   let population = generateFirst20Permutations(words);
   console.log(wordTypes);
   const fitnessScores = population.map(individual => calculateFitness(individual, wordTypes));
   console.log(fitnessScores);
+  console.log(population);
+  console.log(sentenceEndChar);
   //const selectedPopulation = selection(population, fitnessScores);
   //console.log(selectedPopulation);
 /*
