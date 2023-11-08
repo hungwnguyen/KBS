@@ -36,10 +36,10 @@ Thì quá khứ đơn :
             What was she cooking?
             How was the movie?
             When were you born?
-            How was your day?
+            *How was your day?
             Why were they surprised?
-            Where were you last night?
-            What was the weather like?
+            *Where were you last night?
+            *What was the weather like?
             How was the party?
             Why was she upset?
             What were they discussing?
