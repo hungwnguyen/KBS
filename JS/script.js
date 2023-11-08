@@ -78,7 +78,7 @@ function extractSubstring(inputString, startString, endString) {
 
 function checkEnter(event) {
   if (event.key === "Enter") {
-    initializePopulation();
+    constructSentenceFromWords();
   }
 }
 
