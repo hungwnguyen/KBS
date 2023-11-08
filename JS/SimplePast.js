@@ -35,7 +35,7 @@ function mutation(individual) {
 function sga_passSimple(wordTypes, words) {
   // Khởi tạo quần thể ban đầu bằng cách xáo trộn các từ
   let population = generateFirst20Permutations(words);
-  console.log(population);
+  console.log(wordTypes);
   const fitnessScores = population.map(individual => calculateFitness(individual, wordTypes));
   console.log(fitnessScores);
   //const selectedPopulation = selection(population, fitnessScores);

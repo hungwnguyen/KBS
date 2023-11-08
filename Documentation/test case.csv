@@ -1,0 +1,36 @@
+Thì quá khứ đơn với động từ thường:
+    Thể khẳng định : 
+        Cấu trúc: S + V2/ed +…
+        Test case: The bomb exploded two months ago.
+    Thể phủ định
+        Cấu trúc: S + did not + V (nguyên mẫu)
+        Test case: They didn’t accept our offer. 
+    Thể nghi vấn
+        Cấu trúc: Did + S + V (nguyên thể)?
+        Test case: Did you bring her the package?
+        Câu trả lời 
+            Cấu trúc : Yes, S + did./No, S + didn’t.
+            Test case: Yes, I did.
+    Câu hỏi WH- question
+        Cấu trúc: WH-word + did + S + (not) + V (nguyên mẫu)?
+        Test case: What did you do last Sunday?
+Công thức với động từu tobe :
+    Thể khẳng định : 
+        Cấu trúc: S + was/ were +…
+        Test case: The train was ten minutes late.
+    Thể phủ định
+        Cấu trúc: S + was/ were + not
+        Test case: He wasn’t at home last Monday. 
+    Thể nghi vấn
+        Cấu trúc: Was/ Were + S +…?
+        Test case: Was I late for the meeting?
+        Câu trả lời 
+            Cấu trúc : Yes, S + was/ were.../No, S + wasn’t/ weren’t.
+            Test case: No, I wasn’t.
+    Câu hỏi WH- question
+        Cấu trúc: WH-word + was/ were + S (+ not) +…?
+        Test case: Why were you sad?
+    
+    
+    
+    
