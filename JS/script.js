@@ -23,7 +23,7 @@ async function constructSentenceFromWords() {
     }
   }
   if (isSimplePastTense){
-    sga_passSimple(wordTypes);
+    sga_passSimple(wordTypes, words);
   }
 }
 
@@ -48,6 +48,27 @@ async function searchWord(word) {
     console.log(error);
     return '';
   }
+}
+
+// Hàm sinh tất cả hoán vị của mảng
+function generateAllPermutations(arr) {
+  const result = [];
+  
+  function permute(arr, current = []) {
+    if (arr.length === 0) {
+      result.push([...current]);
+    } else {
+      for (let i = 0; i < arr.length; i++) {
+        const rest = arr.slice(0, i).concat(arr.slice(i + 1));
+        current.push(arr[i]);
+        permute(rest, current);
+        current.pop();
+      }
+    }
+  }
+  
+  permute(arr);
+  return result;
 }
 
 function extractSubstring(inputString, startString, endString) {
