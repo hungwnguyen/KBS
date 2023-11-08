@@ -1,6 +1,7 @@
 async function initializePopulation() {
-  var inputSentence = document.getElementById("sentenceInput").value;
-  let words = inputSentence.split(/\s+/);
+  var inputSentence = document.getElementById("sentenceInput").value + ' *';
+  let words = inputSentence.split(/\s+/g);
+  words.pop();
   if (words.length < 2 || words.length > 6) {
     animateText("Vui lòng nhập lại");
     return;
@@ -13,8 +14,9 @@ async function initializePopulation() {
     const test = await searchWord(element);
     if (test == '') {
       animateText("Vui lòng nhập đúng từ tiếng Anh.");
-      break; // Dừng vòng lặp nếu gặp lỗi
+      return;
     }
+    // Nếu tìm thấy 1 động từ được chia ở dạng quá khứ đơn thì gán = true;
     if (test.substring(0, 13) == 'past tense of') {
       isSimplePastTense = true;
     }
