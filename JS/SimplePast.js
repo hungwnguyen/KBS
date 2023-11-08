@@ -2,17 +2,14 @@
 function calculateFitness(individual, wordTypes) {
   // Khởi tạo giá trị điểm thích nghi bằng 100
   let fitness = 100;
-
   // Kiểm tra cấu trúc câu
   for (let i = 0; i < individual.length; i++) {
     const word = individual[i];
     const wordType = wordTypes[word];
-
     if(wordType.includes('person') || wordType.includes('noun')) {
       fitness -= 1;
     }
   }
-
   return fitness;
 }
 
@@ -44,19 +41,14 @@ function sga_passSimple(wordTypes, words) {
   while (true) {
     // Bước 1: Tính giá trị thích nghi của từng cá thể
     const fitnessScores = population.map(individual => calculateFitness(individual, wordTypes));
-    
     // Bước 2: Chọn các cá thể tốt nhất bằng tournement
     const selectedPopulation = selection(population, fitnessScores);
-    
     // Bước 3: Lai ghép chéo order 1 các cá thể để tạo ra các con
     const offspring = crossover(selectedPopulation);
-    
     // Bước 4: Đột biến hoán vị - phép trèn + phép đảo.
     mutation(offspring);
-    
     // Bước 5: Tính toán giá trị thích nghi của cá thể con
     const offspringFitnessScores = population.map(individual => calculateFitness(individual, wordTypes));
-    
     // Kiểm tra điều kiện dừng (nếu tìm thấy cá thể con có điểm tối ưu)
     const maxFitness = Math.max(...offspringFitnessScores);
     if (maxFitness === 100) {
@@ -64,10 +56,8 @@ function sga_passSimple(wordTypes, words) {
       animateText("Kết quả: " + offspring[offspringFitnessScores.indexOf(maxFitness)]);
       return;
     }
-    
     // Chọn cá thể tiếp theo dựa trên giá trị thích nghi
     const nextPopulation = selection(offspring, offspringFitnessScores);
-    
     // Gán quần thể tiếp theo cho lần lặp tiếp theo
     population = nextPopulation;
   }

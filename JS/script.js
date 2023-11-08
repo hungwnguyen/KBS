@@ -54,12 +54,10 @@ async function searchWord(word) {
 function generateFirst20Permutations(arr) {
   const result = [];
   let count = 0; // Biến đếm số lượng hoán vị đã được sinh ra
-  
   function permute(arr, current = []) {
     if (count >= 20) {
       return result; // Dừng nếu đã có đủ 20 hoán vị
     }
-    
     if (arr.length === 0) {
       result.push([...current]);
       count++; // Tăng biến đếm khi một hoán vị mới được thêm vào kết quả
@@ -72,7 +70,6 @@ function generateFirst20Permutations(arr) {
       }
     }
   }
-  
   permute(arr);
   return result;
 }
@@ -80,10 +77,6 @@ function generateFirst20Permutations(arr) {
 
 function extractSubstring(inputString, startString, endString) {
   let result = '';
-  // Nếu như chứa từ khóa people thì thêm loại people vào.
-  if (inputString.includes('people')) {
-    result = 'people ';
-  }
   let startIndex = 0;
   while (true) {
     startIndex = inputString.indexOf(startString, startIndex);
