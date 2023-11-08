@@ -50,13 +50,19 @@ async function searchWord(word) {
   }
 }
 
-// Hàm sinh tất cả hoán vị của mảng
-function generateAllPermutations(arr) {
+// Hàm sinh tối đa 20 hoán vị đầu tiên
+function generateFirst20Permutations(arr) {
   const result = [];
+  let count = 0; // Biến đếm số lượng hoán vị đã được sinh ra
   
   function permute(arr, current = []) {
+    if (count >= 20) {
+      return result; // Dừng nếu đã có đủ 20 hoán vị
+    }
+    
     if (arr.length === 0) {
       result.push([...current]);
+      count++; // Tăng biến đếm khi một hoán vị mới được thêm vào kết quả
     } else {
       for (let i = 0; i < arr.length; i++) {
         const rest = arr.slice(0, i).concat(arr.slice(i + 1));
@@ -70,6 +76,7 @@ function generateAllPermutations(arr) {
   permute(arr);
   return result;
 }
+
 
 function extractSubstring(inputString, startString, endString) {
   let result = '';
