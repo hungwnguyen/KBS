@@ -52,6 +52,10 @@ async function searchWord(word) {
 
 function extractSubstring(inputString, startString, endString) {
   let result = '';
+  // Nếu như chứa từ khóa people thì thêm loại people vào.
+  if (inputString.includes('people')) {
+    result = 'people ';
+  }
   let startIndex = 0;
   while (true) {
     startIndex = inputString.indexOf(startString, startIndex);
