@@ -30,20 +30,66 @@ Thì quá khứ đơn :
             Test case: No, I wasn’t.
     Câu hỏi WH- question
         Cấu trúc: WH-word + was/ were + S (+ not) +…?
-        Test case: 
-            Why were you sad?
-            Where were they yesterday?
-            What was she cooking?
-            How was the movie?
-            When were you born?
-            *How was your day?
-            Why were they surprised?
-            *Where were you last night?
-            *What was the weather like?
-            How was the party?
-            Why was she upset?
-            What were they discussing?
-    
-    
-    
-    
+        Dưới đây là văn bản đã sắp xếp lại với số thứ tự:
+            Test case:
+            4 từ trong câu:
+                1. Why were you sad?
+                2. Where were they yesterday?
+                3. What was she cooking?
+                4. When were you born?
+                5. Why were they surprised?
+                6. Why was she upset?
+                7. What were they discussing?
+                8. How was the movie?
+                9. How was the party?
+                10. *How was your day?
+
+            Câu cần sắp xếp:
+                1. Sad you were why?
+                2. Yesterday they were where?
+                3. Cooking she was what?
+                4. Born you were when?
+                5. Surprised they were why?
+                6. Upset she was why?
+                7. Discussing they were what?
+                8. Movie the was how?
+                9. Party the was how?
+                10. Day your was how?
+
+            5 từ trong câu:
+            
+                1. *Where were you last night?
+                2. *What was the weather like?
+                3. How was your day today?
+                4. When did you get there?
+                5. Where is your favorite place?
+                6. Why is she always late?
+                7. What do you usually eat?
+                8. What is your favorite hobby?
+
+            Câu cần sắp xếp:
+                1. Night last you were where?
+                2. Weather the was what like?
+                3. Day your today was how?
+                4. There get did you when?
+                5. Place favorite your is where?
+                6. Late always she is why?
+                7. Eat usually you do what?
+                8. Hobby favorite your is what?
+            
+            6 từ trong câu:
+
+                1. Where were they on the weekend?
+                2. When were you in that city?
+                3. Where were they on the weekend?
+                4. Where were they during the storm?
+                5. Where were you during the earthquake?
+                6. When were they planning to move?
+
+            Câu cần sắp xếp:
+                1. They on the weekend were where?
+                2. You in that city were when?
+                3. They on the weekend were where?
+                4. They during the storm were where?
+                5. You during the earthquake were where?
+                6. They planning to move were when?

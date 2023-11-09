@@ -83,7 +83,6 @@ function sga_passSimple(wordTypes, words) {
   const fitnessScores = population.map(individual => calculateFitness(individual, wordTypes));
   console.log(fitnessScores);
   console.log(population);
-  console.log(sentenceEndChar);
   //const selectedPopulation = selection(population, fitnessScores);
   //console.log(selectedPopulation);
 /*
