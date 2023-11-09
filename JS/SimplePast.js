@@ -27,6 +27,7 @@ function findNounPhraseStructure(individual, wordTypes) {
       !regex.test(word) && 
       !individual.includes('why') && 
       !individual.includes('when') &&
+      !individual.includes('where') &&
       !wordType.includes('noun') 
     ) {
       pre_modifierWord = word;
@@ -81,15 +82,15 @@ function calculateFitness(individual, wordTypes, subject) {
   // Chuyển câu thành chuỗi để dễ dàng kiểm tra
   const sentence = individual.join(" ");
   // Công thức với động từu tobe :
-  if (/wasn't|weren't|was|were/.test(sentence)) {
-    if (/(wh\w+)|how/i.test(sentence)){
+  if (verbRegex.test(sentence)) {
+    if (regex.test(sentence)){
       sentenceEndChar = '?';
       fitness -= checkStructure_WH_word_WasWere(individual, wordTypes, subject);
     }
   }
   // Công thức với động từ thường:
   else if (/did|didn’t/.test(sentence)){
-    if (/(wh\w+)|how/i.test(sentence)){
+    if (regex.test(sentence)){
       sentenceEndChar = '?';
     }
   }
