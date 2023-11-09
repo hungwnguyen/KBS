@@ -10,6 +10,7 @@ Link:
 - Báo cáo : https://docs.google.com/document/d/1cxsgcz2mYRan45vPKC-c4TXtFN3IBeWS/edit?usp=sharing&ouid=111548788804368937761&rtpof=true&sd=true
 - Trang web : https://hungwnguyen.github.io/KBS/
 - Tài liệu tham khảo : https://docs.google.com/document/d/1TLFK8ImToadzqfQcBBTf2TRhVazGv63y/edit
+- Tài liệu tham khảo : https://vus.edu.vn/cum-danh-tu-tieng-anh/
 
 
 

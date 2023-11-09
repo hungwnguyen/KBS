@@ -1,5 +1,6 @@
 var sentenceEndChar = '.';
-
+const demonstrativeWords = ['this', 'that', 'these', 'those'];
+const possessiveWords = ['my', 'your', 'his', 'her', 'our', 'their', 'its'];
 async function constructSentenceFromWords() {
   var inputSentence = '* ' + document.getElementById("sentenceInput").value + ' *';
   // Kiểm tra xem inputSentence kết thúc bằng "." hoặc "?"
@@ -9,6 +10,7 @@ async function constructSentenceFromWords() {
     // Loại bỏ tất cả các ký tự "?" hoặc "." khỏi inputSentence
     inputSentence = inputSentence.replace(/[.?]/g, '');
   }
+  inputSentence = inputSentence.toLowerCase();
   let words = inputSentence.split(/\s+/g);
   words.pop();
   words.shift();
@@ -44,6 +46,9 @@ async function searchWord(word) {
   if (word.toLowerCase()  === 'were'){
     return 'past tense of be';
   }
+  if (possessiveWords.includes(word.toLowerCase())){
+    return 'possessive';
+  }
   try {
     const apiUrl = "https://dict.laban.vn/ajax/widget-search?type=1&query=" + encodeURIComponent(word) + "&vi=0";
     const response = await fetch(apiUrl);
@@ -56,6 +61,9 @@ async function searchWord(word) {
       startString = '<div id=\"content_selectable\" class=\"content\" style=\"padding-bottom: 10px\">\n    \n    <div class=\"\">';
       outputString = extractSubstring(inputString, startString, endString);
     }
+    if (demonstrativeWords.includes(word.toLowerCase())) {
+      return outputString + ' demonstrative';
+    }
     return outputString;
   } catch (error) {
     console.log(error);
@@ -63,14 +71,14 @@ async function searchWord(word) {
   }
 }
 
-// Hàm sinh tối đa 20 hoán vị đầu tiên
-function generateFirst20Permutations(arr) {
+// Hàm sinh tối đa 16 hoán vị đầu tiên
+function generateFirst16Permutations(arr) {
   const result = [];
   let count = 0; // Biến đếm số lượng hoán vị đã được sinh ra
   function permute(arr, current = []) {
-    if (count >= 20) {
-      return result; // Dừng nếu đã có đủ 20 hoán vị
-    }
+    // if (count >= 16) {
+    //   return result; // Dừng nếu đã có đủ 16 hoán vị
+    // }
     if (arr.length === 0) {
       result.push([...current]);
       count++; // Tăng biến đếm khi một hoán vị mới được thêm vào kết quả
