@@ -19,7 +19,7 @@ async function constructSentenceFromWords() {
     return;
   }
   let wordTypes = {}; // Đối tượng dữ liệu để lưu loại từ
-  let isSimplePastTense = false;
+  let isSimplePastTense = false, isPresentSimple = false, isFeatureSimple = false;
   for (let i = 0; i < words.length; i++) {
     const element = words[i];
     const test = await searchWord(element);
@@ -33,9 +33,18 @@ async function constructSentenceFromWords() {
     if (test.substring(0, 13) == 'past tense of') {
       isSimplePastTense = true;
     }
+    else if (element == 'will' || element == "won't" || element == "'ll"){
+      isFeatureSimple = true;
+    }
   }
   if (isSimplePastTense){
     sga_passSimple(wordTypes, words);
+  }
+  else if (isFeatureSimple){
+    sga_featureSimple(wordTypes, words);
+  }
+  else{
+    sga_presentSimple(wordTypes, words);
   }
 }
 
