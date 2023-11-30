@@ -1,5 +1,6 @@
 const regex = /(wh\w+)|how/i;
 const verbRegex = /wasn't|weren't|was|were/;
+let population = [];
 
 function checkModifierRanking(startIndex, endIndex, individual){
   let count = 0;
@@ -25,7 +26,7 @@ function checkRule(individual, startIndex, endIndex, checkPronoun = true){
       if (word === 'i' && i > startIndex){
         score++;
       }
-      // Nếu như trong câu có đại từ mà không ở vị trí NST thứ 3 của bộ gen thì tăng điểm bị trừ
+      // Nếu như trong câu có đại từ mà không ở vị trí gen thứ 3 của NST thì tăng điểm bị trừ
       else if (wordTypes[word].includes('Pronoun.') && i > startIndex &&
         !wordTypes[word].includes('Conjunction.') && !wordTypes[word].includes('Adverb.') && !wordTypes[word].includes('Adjective.') && !wordTypes[word].includes('Verb.')){
         score++;
@@ -33,7 +34,7 @@ function checkRule(individual, startIndex, endIndex, checkPronoun = true){
       }
     }
     if (Object.hasOwnProperty.call(modifierRanking, word)){
-      //Nếu rank của các từ bổ nghĩa trong gen bị xếp sai hoặc sau không có danh từ nào thì tăng điểm bị trừ
+      //Nếu rank của các từ bổ nghĩa trong NST bị xếp sai hoặc sau không có danh từ nào thì tăng điểm bị trừ
       if (checkModifierRanking(i + 1, individual.length, individual)){
         score++;
         //console.log(word);
@@ -82,11 +83,9 @@ function checkRule(individual, startIndex, endIndex, checkPronoun = true){
 
 function checkStructure_WH_word_WasWere_question(individual) {
   let score = 0;
-  // Kiểm tra NST đầu bộ gen có phải là WH-word không ?
   if (!regex.test(individual[0])){
     score++;
   }
-  // Kiểm tra NST thứ 2 của bộ gen có phải là wasn't|weren't|was|were không ?
   if (!verbRegex.test(individual[1])){
     score++;
   }
@@ -95,7 +94,6 @@ function checkStructure_WH_word_WasWere_question(individual) {
 
 function checkStructure_Was_Were_question(individual){
   let score = 0;
-  // Kiểm tra NST đầu bộ gen có phải là wasn't|weren't|was|were không ?
   if (!verbRegex.test(individual[0])){
     score++;
   }
@@ -104,11 +102,9 @@ function checkStructure_Was_Were_question(individual){
 
 function checkStructure_Was_Were(individual, not){
   let score = 0;
-  // Kiểm tra NST đầu bộ gen có thể làm chủ ngữ không ? 
   if (!wordTypes[individual[0]].includes('Pronoun.') && individual[0] !== 'i'){
     score++;
   }
-  // Kiểm tra NST thứ 2 của bộ gen có phải là wasn't|weren't|was|were không ?
   if (!verbRegex.test(individual[1])){
     score++;
   }
@@ -120,11 +116,9 @@ function checkStructure_Was_Were(individual, not){
 
 function checkStructure_WH_word_did_question(individual, not){
   let score = 0;
-  // Kiểm tra NST đầu bộ gen có phải là WH-word không ?
   if (!regex.test(individual[0])){
     score++;
   }
-  // Kiểm tra NST thứ 2 của bộ gen có phải là /did|didn’t/ không ?
   if (!/did|didn’t/.test(individual[1])){
     score++;
   }
@@ -145,7 +139,6 @@ function checkStructure_WH_word_did_question(individual, not){
 
 function checkStructure_did_question(individual){
   let score = 0;
-  // Kiểm tra NST đầu bộ gen có phải did không ? 
   if (individual[0] !== 'did'){
     score++;
   }
@@ -161,11 +154,9 @@ function checkStructure_did_question(individual){
 
 function checkStructure_negative(individual, not){
   let score = 0;
-  // Kiểm tra NST đầu bộ gen có thể làm chủ ngữ không ? 
   if (wordTypes[individual[0]] !== 'Pronoun. ' && individual[0] !== 'i' && wordTypes[individual[0]] !== 'Noun. Pronoun. '){
     score++;
   }
-  // Kiểm tra NST thứ 2 của bộ gen có phải là /did|didn’t/ không ?
   if (!/did|didn’t/.test(individual[1])){
     score++;
   }
@@ -183,7 +174,6 @@ function checkStructure_negative(individual, not){
 
 function checkStructure_affirmative(individual){
   let score = 0;
-  // Kiểm tra NST đầu bộ gen có thể làm chủ ngữ không ? 
   if (wordTypes[individual[0]] !== 'Pronoun. ' && individual[0] !== 'i' && wordTypes[individual[0]] !== 'Noun. Pronoun. '){
     score++;
   }
@@ -241,26 +231,37 @@ function calculateFitness(individual) {
 }
 
 // Hàm chọn (Selection)
-function selection(population, fitnessScores) {
-  const tournamentSize = 5; // Kích thước của giải đấu
+function tournamentSelection(populationFitness) {
   const selectedPopulation = [];
-
+  const tournamentSize = 8; // Kích thước của mỗi giải đấu
+  const randomIndexDic = {};
   while (selectedPopulation.length < 2) {
-    // Chọn ngẫu nhiên tournamentSize cá thể từ quần thể
+    // Bước 2.1: Randomly choose individuals for the tournament
     const tournamentParticipants = [];
     for (let i = 0; i < tournamentSize; i++) {
-      const randomIndex = Math.floor(Math.random() * population.length);
+      let randomIndex = Math.floor(Math.random() * population.length);
+      while(Object.hasOwnProperty.call(randomIndexDic, randomIndex) && Object.keys(randomIndexDic).length !== population.length){
+        randomIndex = Math.floor(Math.random() * population.length);
+      }
+      randomIndexDic[randomIndex] = true;
       tournamentParticipants.push({
         index: randomIndex,
-        fitness: fitnessScores[randomIndex],
+        fitness: populationFitness[randomIndex],
       });
     }
-    // Sắp xếp các cá thể trong giải đấu theo độ thích nghi giảm dần
-    tournamentParticipants.sort((a, b) => b.fitness - a.fitness);
 
-    // Chọn cá thể chiến thắng (có độ thích nghi cao nhất)
-    const winnerIndex = tournamentParticipants[0].index;
-    selectedPopulation.push(population[winnerIndex]);
+    // Bước 2.2: Chọn cá thể có độ thích nghi tốt nhất từ giải đấu
+    const winner = tournamentParticipants.reduce((prev, current) =>
+      current.fitness > prev.fitness ? current : prev
+    );
+
+    // Bước 2.3: Thêm người chiến thắng vào quần thể đã chọn
+    selectedPopulation.push(population[winner.index]);
+
+    // Loại bỏ cá thể có độ thích nghi thấp nhất khỏi population
+    const minFitnessIndex = populationFitness.indexOf(Math.min(...populationFitness));
+    population.splice(minFitnessIndex, 1);
+    populationFitness.splice(minFitnessIndex, 1);
   }
 
   return selectedPopulation;
@@ -268,51 +269,84 @@ function selection(population, fitnessScores) {
 
 // Hàm lai ghép (Crossover)
 function crossover(parent1, parent2) {
-  // Thực hiện quá trình lai ghép (ví dụ: sử dụng phương pháp order crossover)
+  const offspring1 = Array(parent1.length).fill(undefined);
+  const offspring2 = Array(parent1.length).fill(undefined);
+  const length = parent1.length;
+
+  let startIndex = Math.floor(Math.random() * 100000000000) % length;
+  let endIndex = Math.floor(Math.random() * 100000000000) % length;
+  while(startIndex >= endIndex){
+    startIndex = Math.floor(Math.random() * 100000000000) % length;
+    endIndex = Math.floor(Math.random() * 100000000000) % length;
+  }
+  // Tiến hành lai ghép
+  let dic1 = {}, dic2 = {};
+  for (let i = startIndex; i < endIndex; i++) {
+    offspring1[i] = parent1[i];
+    offspring2[i] = parent2[i];
+    dic1[parent1[i]] = true;
+    dic2[parent2[i]] = true;
+  }
+  let index1 = endIndex, index2 = endIndex;
+  for (let i = endIndex; i < length; i++) {
+    if (!Object.hasOwnProperty.call(dic1, parent2[i])) {
+      offspring1[index1] = parent2[i];
+      index1 = index1 == length - 1 ? 0 : index1 + 1;
+    }
+    if (!Object.hasOwnProperty.call(dic2, parent1[i])) {
+      offspring2[index2] = parent1[i];
+      index2 = index2 == length - 1 ? 0 : index2 + 1;
+    }
+  }
+  for (let i = 0; i < endIndex; i++) {
+    if (!Object.hasOwnProperty.call(dic1, parent2[i])) {
+      offspring1[index1] = parent2[i];
+      index1 = index1 == length - 1 ? 0 : index1 + 1;
+    }
+    if (!Object.hasOwnProperty.call(dic2, parent1[i])) {
+      offspring2[index2] = parent1[i];
+      index2 = index2 == length - 1 ? 0 : index2 + 1;
+    }
+  }
+  return [offspring1, offspring2];
 }
 
+
 // Hàm đột biến (Mutation)
-function mutation(individual) {
-  // Thực hiện quá trình đột biến (ví dụ: hoán vị hoặc đảo vị trí một số từ)
+function mutation(offspring) {
+  for (let i = 0; i < offspring.length; i++) {
+    // Chọn ngẫu nhiên hai vị trí trong cá thể con
+    const mutationPoints = Array.from({ length: 2 }, () => Math.floor(Math.random() * offspring[i].length));
+    // Hoán đổi giá trị tại hai vị trí đã chọn
+    const temp = offspring[i][mutationPoints[0]];
+    offspring[i][mutationPoints[0]] = offspring[i][mutationPoints[1]];
+    offspring[i][mutationPoints[1]] = temp;
+    population.push(offspring[i]);
+  }
 }
 
 // Hàm chạy giải thuật di truyền
 function sga_passSimple(words) {
   // Khởi tạo quần thể ban đầu bằng cách xáo trộn các từ
-  //let population = generateRandomPermutations(words);
-  let population = generateFirst16Permutations(words);
-  //console.log(population);
+  population = generateRandomPermutations(words);
   console.log(wordTypes);
   // Bước 1: Tính giá trị thích nghi của từng cá thể
-  const fitnessScores = population.map(individual => calculateFitness(individual));
+  let fitnessScores = population.map(individual => calculateFitness(individual));
+  while (Math.max(...fitnessScores) != 100) {
+    // Bước 2: Lựa chọn cá thể bằng hàm Tournament selection thực hiện lựa chọn thay thế đảm bảo kích thước quần thể luôn bằng 16
+    const selectedPopulation = tournamentSelection(fitnessScores);
+    // Bước 3: Lai ghép chéo order 1 các cá thể để tạo ra các con
+    const offspring = crossover(selectedPopulation[0], selectedPopulation[1]);
+    // Bước 4: Đột biến hoán vị.
+    mutation(offspring);
+    // Bước 5: Tính toán giá trị thích nghi của cá thể con
+    fitnessScores = population.map(individual => calculateFitness(individual));
+  }
   const maxFitnessIndex = fitnessScores.indexOf(Math.max(...fitnessScores));
-  console.log(Math.max(...fitnessScores));
   // Thay thế từ "i" bằng "I" trong cá thể có độ thích nghi cao nhất
   population[maxFitnessIndex] = population[maxFitnessIndex].map(word => (word === 'i') ? 'I' : word);
   let  maxFitnessIndividual = population[maxFitnessIndex].join(" ");
-  
   animateText(maxFitnessIndividual);
-  // while (true) {
-  //   // Bước 2: Chọn các cá thể tốt nhất bằng tournement
-  //   const selectedPopulation = selection(population, fitnessScores);
-  //   // Bước 3: Lai ghép chéo order 1 các cá thể để tạo ra các con
-  //   const offspring = crossover(selectedPopulation);
-  //   // Bước 4: Đột biến hoán vị - phép trèn + phép đảo.
-  //   mutation(offspring);
-  //   // Bước 5: Tính toán giá trị thích nghi của cá thể con
-  //   const offspringFitnessScores = population.map(individual => calculateFitness(individual, wordTypes));
-  //   // Kiểm tra điều kiện dừng (nếu tìm thấy cá thể con có điểm tối ưu)
-  //   const maxFitness = Math.max(...offspringFitnessScores);
-  //   if (maxFitness === 100) {
-  //     // Dừng và biểu diễn kết quả (hoàn thiện theo nhu cầu)
-  //     animateText("Kết quả: " + offspring[offspringFitnessScores.indexOf(maxFitness)]);
-  //     return;
-  //   }
-  //   // Chọn cá thể tiếp theo dựa trên giá trị thích nghi
-  //   const nextPopulation = selection(offspring, offspringFitnessScores);
-  //   // Gán quần thể tiếp theo cho lần lặp tiếp theo
-  //   population = nextPopulation;
-  // }
 }
 
   

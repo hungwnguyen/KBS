@@ -100,10 +100,18 @@ async function searchWord(word) {
   }
 }
 
-// Hàm để sinh 16 hoán vị ngẫu nhiên và khác nhau
-function generateRandomPermutations(arr, count = 16) {
+function calculateFactorial(n) {
+  if (n === 0 || n === 1) {
+    return 1;
+  } else {
+    return n * calculateFactorial(n - 1);
+  }
+}
+
+function generateRandomPermutations(arr, count = 23) {
   const result = [];
-  while (result.length < count) {
+  const factorialN = calculateFactorial(arr.length);
+  while (result.length < count && result.length !== factorialN) {
     const shuffledArr = shuffleArray(arr.slice()); // Tạo một bản sao và trộn mảng
     if (!result.some(existingPermutation => areArraysEqual(existingPermutation, shuffledArr))) {
       // Kiểm tra xem hoán vị đã tồn tại chưa
