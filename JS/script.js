@@ -1,6 +1,25 @@
 var sentenceEndChar = '.';
-const demonstrativeWords = ['this', 'that', 'these', 'those'];
-const possessiveWords = ['my', 'your', 'his', 'her', 'our', 'their', 'its'];
+
+// Xác định dựa trên cấu trúc cụm danh từ: Determiner + Pre-modifier + Noun + Post-modifier
+var modifierRanking = {};
+ // Đối tượng dữ liệu để lưu loại từ
+ let wordTypes = {};
+// Đường dẫn tới file JSON
+const jsonpath = 'Data/ModifierRanking.json';
+    fetch(jsonpath)
+    .then(response => response.json())
+    .then(data => {
+      // Chuyển đổi tất cả các khóa về chữ thường
+        for (const key in data) {
+          if (Object.hasOwnProperty.call(data, key)) {
+              const lowerCaseKey = key.toLowerCase();
+              modifierRanking[lowerCaseKey] = data[key];
+          }
+        }
+        console.log(modifierRanking);
+    })
+    .catch(error => console.error('Error:', error));
+
 async function constructSentenceFromWords() {
   var inputSentence = '* ' + document.getElementById("sentenceInput").value + ' *';
   // Kiểm tra xem inputSentence kết thúc bằng "." hoặc "?"
@@ -18,8 +37,8 @@ async function constructSentenceFromWords() {
     animateText("Vui lòng nhập lại");
     return;
   }
-  let wordTypes = {}; // Đối tượng dữ liệu để lưu loại từ
-  let isSimplePastTense = false, isPresentSimple = false, isFeatureSimple = false;
+  wordTypes = {};
+  let isSimplePastTense = false, isFeatureSimple = false;
   for (let i = 0; i < words.length; i++) {
     const element = words[i];
     const test = await searchWord(element);
@@ -38,13 +57,13 @@ async function constructSentenceFromWords() {
     }
   }
   if (isSimplePastTense){
-    sga_passSimple(wordTypes, words);
+    sga_passSimple(words);
   }
   else if (isFeatureSimple){
-    sga_featureSimple(wordTypes, words);
+    sga_featureSimple(words);
   }
   else{
-    sga_presentSimple(wordTypes, words);
+    sga_presentSimple(words);
   }
 }
 
@@ -52,11 +71,14 @@ async function searchWord(word) {
   if (word.trim() === "") {
     return '';
   }
-  if (word.toLowerCase()  === 'were'){
+  if (verbRegex.test(word.toLowerCase())){
     return 'past tense of be';
   }
-  if (possessiveWords.includes(word.toLowerCase())){
-    return 'possessive';
+  if (/did|didn’t/.test(word.toLowerCase())){
+    return 'past tense of do';
+  }
+  if (word === 'email'){
+    return 'Noun. ';
   }
   try {
     const apiUrl = "https://dict.laban.vn/ajax/widget-search?type=1&query=" + encodeURIComponent(word) + "&vi=0";
@@ -70,22 +92,32 @@ async function searchWord(word) {
       startString = '<div id=\"content_selectable\" class=\"content\" style=\"padding-bottom: 10px\">\n    \n    <div class=\"\">';
       outputString = extractSubstring(inputString, startString, endString);
     }
-    if (demonstrativeWords.includes(word.toLowerCase())) {
-      return outputString + ' demonstrative';
-    }
     return outputString;
   } catch (error) {
+    console.log(word);
     console.log(error);
     return '';
   }
 }
 
-// Hàm sinh tối đa 16 hoán vị đầu tiên
+// Hàm để sinh 16 hoán vị ngẫu nhiên và khác nhau
+function generateRandomPermutations(arr, count = 16) {
+  const result = [];
+  while (result.length < count) {
+    const shuffledArr = shuffleArray(arr.slice()); // Tạo một bản sao và trộn mảng
+    if (!result.some(existingPermutation => areArraysEqual(existingPermutation, shuffledArr))) {
+      // Kiểm tra xem hoán vị đã tồn tại chưa
+      result.push(shuffledArr);
+    }
+  }
+  return result;
+}
+
 function generateFirst16Permutations(arr) {
   const result = [];
   let count = 0; // Biến đếm số lượng hoán vị đã được sinh ra
   function permute(arr, current = []) {
-    // if (count >= 16) {
+    // if (count >= 1) {
     //   return result; // Dừng nếu đã có đủ 16 hoán vị
     // }
     if (arr.length === 0) {
@@ -104,6 +136,20 @@ function generateFirst16Permutations(arr) {
   return result;
 }
 
+// Hàm để trộn mảng
+function shuffleArray(arr) {
+  for (let i = arr.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [arr[i], arr[j]] = [arr[j], arr[i]]; // Swap giữa hai phần tử
+  }
+  return arr;
+}
+
+// Hàm để so sánh hai mảng
+function areArraysEqual(arr1, arr2) {
+  return arr1.length === arr2.length && arr1.every((value, index) => value === arr2[index]);
+}
+
 function extractSubstring(inputString, startString, endString) {
   let result = '';
   let startIndex = 0;
@@ -117,7 +163,8 @@ function extractSubstring(inputString, startString, endString) {
     if (endIndex === -1) {
       break;
     }
-    const substring = inputString.substring(startIndex, endIndex);
+    let substring = inputString.substring(startIndex, endIndex);
+    substring = substring.slice(0, 1).toUpperCase() + substring.slice(1) + '.';
     result = substring + ' ' + result;
     // Tăng vị trí bắt đầu tìm kiếm để tránh lặp vô hạn
     startIndex = endIndex;
@@ -132,6 +179,7 @@ function checkEnter(event) {
 }
 
 function animateText(text, minTimeout = 0, maxTimeout = 1, underscoreTimeout = 66) {
+  text = text.slice(0, 1).toUpperCase() + text.slice(1) + sentenceEndChar;
   let currentIndex = 0;
   const element = document.getElementById("result"); // ID của phần tử hiển thị kết quả
   element.innerHTML = '';
