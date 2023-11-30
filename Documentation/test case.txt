@@ -44,7 +44,7 @@ Test Case 3:
 
 WH- Question
 
-Structure: WH-word + did + S + (not) + V (base form)?
+Structure: WH-word + did + S + V (base form)?
 
 Test Case 4:
 
@@ -112,7 +112,7 @@ Test Case 7:
 
 WH- Question
 
-Structure: WH-word + was/were + S (+ not) + ...?
+Structure: WH-word + was/were + S + ...?
 
 Test Case 8:
 
