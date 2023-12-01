@@ -33,6 +33,11 @@ function checkRule(individual, startIndex, endIndex, checkPronoun = true){
         //console.log(word);
       }
     }
+    if ((word === 'he' || word === 'she' || word === 'we' || word === 'they')
+      && !checkPronoun){
+      score++;
+      //console.log(word);
+    }
     if (Object.hasOwnProperty.call(modifierRanking, word)){
       //Nếu rank của các từ bổ nghĩa trong NST bị xếp sai hoặc sau không có danh từ nào thì tăng điểm bị trừ
       if (checkModifierRanking(i + 1, individual.length, individual)){
@@ -337,7 +342,7 @@ function sga_passSimple(words) {
     const selectedPopulation = tournamentSelection(fitnessScores);
     // Bước 3: Lai ghép chéo order 1 các cá thể để tạo ra các con
     const offspring = crossover(selectedPopulation[0], selectedPopulation[1]);
-    // Bước 4: Đột biến hoán vị.
+    // Bước 4: Đột biến hoán vị - phép đảo.
     mutation(offspring);
     // Bước 5: Tính toán giá trị thích nghi của cá thể con
     fitnessScores = population.map(individual => calculateFitness(individual));
