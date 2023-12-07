@@ -21,6 +21,7 @@ const jsonpath = 'Data/ModifierRanking.json';
     .catch(error => console.error('Error:', error));
 
 async function constructSentenceFromWords() {
+  sentenceEndChar = '.';
   var inputSentence = '* ' + document.getElementById("sentenceInput").value + ' *';
   // Kiểm tra xem inputSentence kết thúc bằng "." hoặc "?"
   if (/[.?]/.test(inputSentence)) {
@@ -63,7 +64,7 @@ async function constructSentenceFromWords() {
     sga_featureSimple(words);
   }
   else{
-    sga_presentSimple(words);
+    animateText("Vui lòng nhập lại");
   }
 }
 

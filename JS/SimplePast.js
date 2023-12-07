@@ -26,7 +26,7 @@ function checkRule(individual, startIndex, endIndex, checkPronoun = true){
       if (word === 'i' && i > startIndex){
         score++;
       }
-      // Nếu như trong câu có đại từ mà không ở vị trí gen thứ 3 của NST thì tăng điểm bị trừ
+      // Nếu như trong câu có đại từ mà không ở vị trí chủ ngữ của NST thì tăng điểm bị trừ
       else if (wordTypes[word].includes('Pronoun.') && i > startIndex &&
         !wordTypes[word].includes('Conjunction.') && !wordTypes[word].includes('Adverb.') && !wordTypes[word].includes('Adjective.') && !wordTypes[word].includes('Verb.')){
         score++;
@@ -74,7 +74,7 @@ function checkRule(individual, startIndex, endIndex, checkPronoun = true){
         }
       }
       word = individual[i];
-      if //Nếu trước tính từ không có danh từ thì tăng điểm bị trừ.
+      if //Nếu trước đại từ là danh từ hoặc trạng từ hoặc mạo từ xác định thì tăng điểm bị trừ.
       (wordTypes[word].includes('Pronoun.')){
         word = individual[i - 1];
         if (wordTypes[word] === 'Adverb. Noun. ' || wordTypes[word] === 'Noun. ' || wordTypes[word].includes('Definite article. ')){
@@ -198,7 +198,7 @@ function calculateFitness(individual) {
   // Công thức với động từu tobe :
   if (verbRegex.test(sentence) && !sentence.includes('washed')) {
     if (regex.test(sentence)){
-      //Structure: WH-word + was/were + S (+ not) + ...?
+      //Structure: WH-word + was/were + S + ...?
       sentenceEndChar = '?';
       fitness -= checkStructure_WH_word_WasWere_question(individual);
     }
@@ -215,7 +215,7 @@ function calculateFitness(individual) {
   else if (/did|didn’t/.test(sentence)){
     
     if (regex.test(sentence)){
-      //Structure: WH-word + did + S + (not) + V (base form)?
+      //Structure: WH-word + did + S + V (base form)?
       sentenceEndChar = '?';
       fitness -= checkStructure_WH_word_did_question(individual, not);
     }
@@ -315,7 +315,6 @@ function crossover(parent1, parent2) {
   }
   return [offspring1, offspring2];
 }
-
 
 // Hàm đột biến (Mutation)
 function mutation(offspring) {
