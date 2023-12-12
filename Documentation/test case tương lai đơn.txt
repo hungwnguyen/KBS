@@ -1,0 +1,44 @@
+Affirmative
+
+    Structure: S + will + V (base form):
+
+    Test 1:
+
+        Sentence: will she next buy car week.
+        Transformed Sentence: She will buy car next week.
+
+        Sentence: go we to will factory the
+        Transformed Sentence: We will go to the factory.
+
+Negative
+
+    Structure: S + will not + V (base form)
+
+    Test Case 2:
+
+        Sentence: will not come tomorrow home she.
+        Transformed Sentence: She will not come home tomorrow.
+
+Interrogative
+
+    Structure: Will + S + V (base form)?
+
+    Test Case 3:
+
+        Sentence: meeting will be you the?
+        Transformed Sentence: Will you be the meeting?
+
+        Sentence: you will grandparents your tomorrow visit?
+        Transformed Sentence: Will you visit your grandparents tomorrow?
+
+WH- Question
+
+    Structure: WH-word + will + S + V (base form)?
+
+    Test Case 4:
+
+        Sentence: study When you will?
+        Transformed Sentence: When will you study?
+
+        Sentence: be this will you  weekend where?
+        Transformed Sentence: Where will you be this weekend?
