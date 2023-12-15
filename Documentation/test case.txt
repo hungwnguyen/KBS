@@ -9,6 +9,9 @@ Test Case 1:
     Sentence: He washed his car last weekend.
     Transformed Sentence: Last weekend his car he washed.
 
+    Sentence: I did it.
+    Transformed Sentence: it   i did.
+
 Negative
 
 Structure: S + did not + V (base form)
@@ -19,7 +22,7 @@ Test Case 2:
     Transformed Sentence: Her homework she didn't finish.
 
     Sentence: They did not arrive on time.
-    Transformed Sentence: On time they did not arrive.
+    Transformed Sentence: On            time    .they     did         not  arrive.
 
     Sentence: I did not watch the movie.
     Transformed Sentence: The movie I did not watch.

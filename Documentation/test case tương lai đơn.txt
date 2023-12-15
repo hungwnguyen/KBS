@@ -4,11 +4,14 @@ Affirmative
 
     Test 1:
 
-        Sentence: will she next buy car week.
+        Sentence:      will        she     next   buy      car week.
         Transformed Sentence: She will buy car next week.
 
-        Sentence: go we to will factory the
+        Sentence: go   we         to   will    factory    the
         Transformed Sentence: We will go to the factory.
+
+        Sentence: I will go
+        Transformed Sentence: go will    i.
 
 Negative
 
@@ -16,7 +19,7 @@ Negative
 
     Test Case 2:
 
-        Sentence: will not come tomorrow home she.
+        Sentence:    will    not come   tomorrow  home      she.
         Transformed Sentence: She will not come home tomorrow.
 
 Interrogative
@@ -25,10 +28,10 @@ Interrogative
 
     Test Case 3:
 
-        Sentence: meeting will be you the?
+        Sentence: meeting     ?will  be you       the
         Transformed Sentence: Will you be the meeting?
 
-        Sentence: you will grandparents your tomorrow visit?
+        Sentence:    you     will   ?  grandparents your     tomorrow  visit
         Transformed Sentence: Will you visit your grandparents tomorrow?
 
 WH- Question
@@ -37,8 +40,8 @@ WH- Question
 
     Test Case 4:
 
-        Sentence: study When you will?
+        Sentence: study    ?   When     you    will
         Transformed Sentence: When will you study?
 
-        Sentence: be this will you  weekend where?
+        Sentence: be        this ?  will you       weekend where
         Transformed Sentence: Where will you be this weekend?
