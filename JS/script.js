@@ -20,6 +20,7 @@ const jsonpath = 'Data/ModifierRanking.json';
     })
     .catch(error => console.error('Error:', error));
 
+//Đầu vào hệ thống
 async function constructSentenceFromWords() {
   sentenceEndChar = '.';
   var inputSentence = '* ' + document.getElementById("sentenceInput").value + ' *';
@@ -34,7 +35,7 @@ async function constructSentenceFromWords() {
   let words = inputSentence.split(/\s+/g);
   words.pop();
   words.shift();
-  if (words.length < 2 || words.length > 6) {
+  if (words.length <= 2 || words.length > 6) {
     animateText("Vui lòng nhập lại");
     return;
   }
@@ -50,10 +51,11 @@ async function constructSentenceFromWords() {
     // Lưu loại từ vào đối tượng dữ liệu
     wordTypes[element] = test;
     // Nếu tìm thấy 1 động từ được chia ở dạng quá khứ đơn thì gán = true;
-    if (test.substring(0, 13) == 'past tense of') {
+    if (test.substring(0, 13) == 'Past tense of') {
       isSimplePastTense = true;
+      console.log("oke");
     }
-    else if (element == 'will' || element == "won't" || element == "'ll"){
+    else if (element == 'will' || element == "won't"){
       isFeatureSimple = true;
     }
   }
@@ -64,19 +66,20 @@ async function constructSentenceFromWords() {
     sga_featureSimple(words);
   }
   else{
-    animateText("Vui lòng nhập lại");
+    animateText("Hệ thống chỉ hỗ trợ thì quá khứ đơn và tương lai đơn");
   }
 }
-
+//Truy vấn dữ liệu loại từ
 async function searchWord(word) {
+  console.log(word);
   if (word.trim() === "") {
     return '';
   }
   if (verbRegex.test(word.toLowerCase())){
-    return 'past tense of be';
+    return 'Past tense of be.';
   }
   if (/did|didn’t/.test(word.toLowerCase())){
-    return 'past tense of do';
+    return 'Past tense of do.';
   }
   if (word === 'email'){
     return 'Noun. ';
@@ -93,6 +96,7 @@ async function searchWord(word) {
       startString = '<div id=\"content_selectable\" class=\"content\" style=\"padding-bottom: 10px\">\n    \n    <div class=\"\">';
       outputString = extractSubstring(inputString, startString, endString);
     }
+    console.log(outputString);
     return outputString;
   } catch (error) {
     console.log(word);
@@ -109,7 +113,9 @@ function calculateFactorial(n) {
   }
 }
 
-function generateRandomPermutations(arr, count = 23) {
+//Khởi tạo quần thể
+function generateRandomPermutations(arr) {
+  const count = 16 + Math.floor(Math.random() * (8));
   const result = [];
   const factorialN = calculateFactorial(arr.length);
   while (result.length < count && result.length !== factorialN) {
@@ -122,6 +128,7 @@ function generateRandomPermutations(arr, count = 23) {
   return result;
 }
 
+//Push các cá thể sinh ra vào 1 mảng 2 chiều
 function generateFirst16Permutations(arr) {
   const result = [];
   let count = 0; // Biến đếm số lượng hoán vị đã được sinh ra
@@ -159,6 +166,7 @@ function areArraysEqual(arr1, arr2) {
   return arr1.length === arr2.length && arr1.every((value, index) => value === arr2[index]);
 }
 
+//Cắt xâu trả về từ API từ điển La Bàn để lấy dữ liệu loại từ
 function extractSubstring(inputString, startString, endString) {
   let result = '';
   let startIndex = 0;

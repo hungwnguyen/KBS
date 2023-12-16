@@ -7,7 +7,7 @@ Structure: S + V2/ed + ...
 Test Case 1:
 
     Sentence: He washed his car last weekend.
-    Transformed Sentence: Last weekend his car he washed.
+    Transformed Sentence: Last      weekend his         car he washed.
 
     Sentence: I did it.
     Transformed Sentence: it   i did.

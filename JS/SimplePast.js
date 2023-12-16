@@ -198,7 +198,7 @@ function checkStructure_affirmative(individual){
   if (wordTypes[individual[0]] !== 'Pronoun. ' && individual[0] !== 'i' && wordTypes[individual[0]] !== 'Noun. Pronoun. '){
     score++;
   }
-  if (!wordTypes[individual[1]].includes('past tense of')){
+  if (!wordTypes[individual[1]].includes('Past tense of')){
     score++;
   }
   return score + checkRule(individual, 2, individual.length, false);
@@ -287,24 +287,32 @@ function tournamentSelection(populationFitness, population_current) {
 
 // Hàm lai ghép (Crossover)
 function crossover(parent1, parent2) {
+
+  //Khỏi tạo 2 cá thể con với chiều dài bằng cha mẹ
   const offspring1 = Array(parent1.length).fill(undefined);
   const offspring2 = Array(parent1.length).fill(undefined);
   const length = parent1.length;
 
+  //Chọn ngẫu nhiên một đoạn gen để lai ghép
   let startIndex = Math.floor(Math.random() * 100000000000) % length;
   let endIndex = Math.floor(Math.random() * 100000000000) % length;
+
+  //Đảm bảo vị trí bắt đầu luôn nhỉ hơn hoặc bằng vị trí kết thúc
   while(startIndex >= endIndex){
     startIndex = Math.floor(Math.random() * 100000000000) % length;
     endIndex = Math.floor(Math.random() * 100000000000) % length;
   }
+
   // Tiến hành lai ghép
-  let dic1 = {}, dic2 = {};
+  let dic1 = {}, dic2 = {};//Sử dụng để kiểm tra gen đã xuất hiện
   for (let i = startIndex; i < endIndex; i++) {
     offspring1[i] = parent1[i];
     offspring2[i] = parent2[i];
     dic1[parent1[i]] = true;
     dic2[parent2[i]] = true;
   }
+
+  //Hoàn thiện các gen còn lại theo thứ tự xuất hiện trong cha mẹ từ vị trí cuối được chọn trong gen
   let index1 = endIndex, index2 = endIndex;
   for (let i = endIndex; i < length; i++) {
     if (!Object.hasOwnProperty.call(dic1, parent2[i])) {
@@ -316,6 +324,8 @@ function crossover(parent1, parent2) {
       index2 = index2 == length - 1 ? 0 : index2 + 1;
     }
   }
+
+  //Hoàn thiện các gen còn lại từ đầu đến vị trí đầu tiên được chọn trong gen
   for (let i = 0; i < endIndex; i++) {
     if (!Object.hasOwnProperty.call(dic1, parent2[i])) {
       offspring1[index1] = parent2[i];
@@ -367,5 +377,3 @@ function sga_passSimple(words) {
   let  maxFitnessIndividual = population[maxFitnessIndex].join(" ");
   animateText(maxFitnessIndividual);
 }
-
-  
